@@ -1,8 +1,15 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import './api'
+import {JTaskAPI} from "./api";
+
+const JTask = new JTaskAPI("http://localhost:5000/api")
 
 function App() {
+  JTask.getTaskList().then((res) => {
+      console.log(res)
+  })
   return (
     <div className="App">
       <header className="App-header">
