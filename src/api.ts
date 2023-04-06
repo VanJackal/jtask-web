@@ -1,4 +1,3 @@
-
 enum State {
     Complete,
     Incomplete,
@@ -13,6 +12,16 @@ interface Task {
     tags?:Array<string>,
     alerts?:Array<Date>,
     parent?:string // mongo id
+}
+
+let _host = ""
+
+/**
+ * set the host for all JTask api calls
+ * @param host
+ */
+function setHost(host:string):void {
+    _host = host
 }
 
 function isTask(obj:any):obj is Task{ // todo could this be changed to just check if the obj has only the required values
@@ -40,23 +49,35 @@ function isTaskArr(obj:Array<any>):obj is [Task]{
     })
 }
 
-class JTaskAPI{
-    _host:string;
-    constructor(host:string) {
-        this._host = host
+async function getTaskList():Promise<[Task]>{
+    const res = await fetch(_host + "/tasks",{method:"GET",mode:"cors"})
+    const body = await res.json()
+    if (isTaskArr(body)){
+        return body
+    } else {
+        throw new Error("API responded with invalid Tasks array")
     }
-    async getTaskList():Promise<[Task]>{
-        const res = await fetch(this._host + "/tasks",{method:"GET",mode:"cors"})
-        const body = await res.json()
-        if (isTaskArr(body)){
-            return body
-        } else {
-            throw new Error("API responded with invalid Tasks array")
-        }
-    }
+}
+
+async function createTask(task:Partial<Task>):Promise<Task>{
+    const res = await fetch(_host + "/task", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify(task)
+    })
+    return res.json()
 }
 
 
 export {
-    JTaskAPI
+    setHost,
+    getTaskList,
+    State
 }
+export type {
+    Task
+}
+
+//TODO fully implement this
+//TODO implement this without an object (use a global var or envvar to store API URI)
+//TODO remove type verification (return correct types but suppress ts)

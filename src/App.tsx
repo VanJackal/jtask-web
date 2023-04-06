@@ -1,31 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import './api'
-import {JTaskAPI} from "./api";
+import * as JTask from './api'
+import {Task} from "./api";
+import {TaskList} from "./TaskList"
 
-const JTask = new JTaskAPI("http://localhost:5000/api")
+JTask.setHost(process.env.REACT_APP_API||"")
 
 function App() {
+  const [tasks, setTasks] = React.useState<[Task]|null>(null)
+  React.useEffect(() => {
+      let updateTasks = async () => {
+          setTasks(await JTask.getTaskList())
+      }
+      updateTasks();
+  })
   JTask.getTaskList().then((res) => {
       console.log(res)
   })
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        {tasks?<TaskList tasks={tasks}/>:<p>loading</p>}
     </div>
   );
 }
