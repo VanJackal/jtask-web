@@ -3,6 +3,7 @@ import './App.css';
 import * as JTask from './api'
 import {Task} from "./api";
 import {TaskList} from "./TaskList"
+import {TaskView} from "./TaskView";
 
 JTask.setHost(process.env.REACT_APP_API||"")
 
@@ -19,7 +20,12 @@ function App() {
   })
   return (
     <div className="App">
-        {tasks?<TaskList tasks={tasks}/>:<p>loading</p>}
+        <div className="TaskList">
+            {tasks?<TaskList tasks={tasks}/>:<p>loading</p>}
+        </div>
+        <div className="TaskView">
+            <TaskView/>
+        </div>
     </div>
   );
 }
