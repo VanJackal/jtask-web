@@ -15,6 +15,7 @@ function App() {
       }
       updateTasks();
   })
+
   JTask.getTaskList().then((res) => {
       console.log(res)
   })
