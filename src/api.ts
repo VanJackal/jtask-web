@@ -22,6 +22,7 @@ let _host = ""
  */
 function setHost(host:string):void {
     _host = host
+    console.debug("set API host to:",host)
 }
 
 async function getTaskList():Promise<[Task]>{
