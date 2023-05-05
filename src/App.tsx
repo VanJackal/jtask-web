@@ -21,7 +21,7 @@ function App() {
 	return (
 		<div className="App">
 			<div className="TaskList">
-				{tasks ? <TaskList tasks={tasks}/> : <p>loading</p>}
+				{tasks ? <TaskList tasks={tasks} select={setSelected} selected={selected}/> : <p>loading</p>}
 			</div>
 			<div className="TaskView">
 				<TaskView taskId={selected} select={setSelected} refresh={updateTasks}/>

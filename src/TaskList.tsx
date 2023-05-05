@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {MouseEventHandler} from 'react'
 import {Task} from './api'
 
 let Header = () => {
@@ -16,9 +16,9 @@ let Header = () => {
     )
 }
 
-let TaskItem = ({task}:{task:Task}) => {
+let TaskItem = ({task,clickFunc,selected}:{task:Task,clickFunc:MouseEventHandler,selected:boolean}) => {
     return (
-        <tr>
+        <tr onClick={clickFunc} className={selected?"selected":""}>
             <td>
                 {task.title}
             </td>
@@ -29,14 +29,14 @@ let TaskItem = ({task}:{task:Task}) => {
     )
 }
 
-let TaskList = ({tasks}:{tasks:[Task]}) => {
+let TaskList = ({tasks,select,selected}:{tasks:[Task],select:Function,selected:string}) => {
     return (
         <table>
             <Header/>
             <tbody>
             {
                 tasks.map((task) => {
-                    return (<TaskItem task={task} key={task._id}/>)
+                    return (<TaskItem task={task} key={task._id} clickFunc={()=>{select(task._id)}} selected={task._id == selected}/>)
                 })
             }
             </tbody>

@@ -7,10 +7,10 @@ interface Task {
     _id:string,
     title:string,
     description?:string,
-    dueDate?:Date,
+    dueDate?:string,
     state:State,
     tags?:Array<string>,
-    alerts?:Array<Date>,
+    alerts?:Array<string>,
     parent?:string // mongo id
 }
 

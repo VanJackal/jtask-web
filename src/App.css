@@ -17,3 +17,7 @@
   resize: none;
   height: 24em;
 }
+
+.selected {
+  background-color: gray;
+}
