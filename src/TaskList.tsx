@@ -36,7 +36,7 @@ let TaskList = ({tasks}:{tasks:[Task]}) => {
             <tbody>
             {
                 tasks.map((task) => {
-                    return (<TaskItem task={task}/>)
+                    return (<TaskItem task={task} key={task._id}/>)
                 })
             }
             </tbody>
