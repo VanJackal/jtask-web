@@ -1,7 +1,7 @@
 import React from "react";
 import {Task,getTask,createTask,updateTask} from "./api";
 
-let TaskView = ({taskId,select}:{taskId:string,select:Function}) => {
+let TaskView = ({taskId,select,refresh}:{taskId:string,select:Function,refresh:Function}) => {
     let [taskData, setTask] = React.useState<Task>({
         _id: "", state: 0, title: ""
     })
@@ -19,6 +19,7 @@ let TaskView = ({taskId,select}:{taskId:string,select:Function}) => {
             select(created._id)
             setTask({...taskData,_id:created._id})
         }
+        refresh()
     }
     return (
         <>
