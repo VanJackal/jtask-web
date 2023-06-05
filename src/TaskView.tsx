@@ -2,7 +2,7 @@ import React from "react";
 import {Task,getTask,createTask,updateTask} from "./api";
 
 let DueDate = ({value, onChange}:{value:Date|null,onChange:(value:Date)=>void}) => {// todo finish this component
-    let date:Date|null = value? new Date(value.getDate()) : null;
+    let date:string = value? `${value.getFullYear()}-${value.getMonth().toString().padStart(2,"0")}-${value.getDate()}` : ""
     let hour:number = value?.getMinutes() || 0;
     let minute:number = value?.getHours() || 0;
 
@@ -11,7 +11,7 @@ let DueDate = ({value, onChange}:{value:Date|null,onChange:(value:Date)=>void}) 
     }
     return (
         <div className="DueDate">
-            <input type="date" value={date?.toISOString()}/>
+            <input type="date" value={date}/>
             <select id="hour" value={hour}>
                 {(() => {
                     let options = []
