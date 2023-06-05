@@ -2,7 +2,7 @@ import React from "react";
 import {Task,getTask,createTask,updateTask} from "./api";
 
 let DueDate = ({value, onChange}:{value:Date|null,onChange:(value:Date)=>void}) => {// todo finish this component
-    let date:string = value? `${value.getFullYear()}-${value.getMonth().toString().padStart(2,"0")}-${value.getDate()}` : ""
+    let date:string = value? `${value.getFullYear()}-${value.getMonth().toString().padStart(2,"0")}-${value.getDate().toString().padStart(2,"0")}` : ""
     let hour:number = value?.getMinutes() || 0;
     let minute:number = value?.getHours() || 0;
 
