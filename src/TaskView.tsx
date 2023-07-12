@@ -1,18 +1,39 @@
 import React from "react";
 import {Task,getTask,createTask,updateTask} from "./api";
 
+let padNum = (len:number,num:number) => {
+    return num.toString().padStart(len,"0")
+}
+let getDateString = (date:Date) => {
+    return `${date.getFullYear()}-${padNum(2, date.getMonth()+1)}-${padNum(2,date.getDate())}`;
+}
+
+let getDate = (date:string,hour:number,minute:number):Date => {
+    const dateString = `${date}T${padNum(2,hour)}:${padNum(2,minute)}`
+    console.log(dateString)
+    return new Date(dateString)
+}
+
 let DueDate = ({value, onChange}:{value:Date|null,onChange:(value:Date)=>void}) => {// todo finish this component
-    let date:string = value? `${value.getFullYear()}-${value.getMonth().toString().padStart(2,"0")}-${value.getDate()}` : ""
-    let hour:number = value?.getMinutes() || 0;
-    let minute:number = value?.getHours() || 0;
+    let DateData = {
+        date : value? getDateString(value) : "",
+        hour : value?.getHours() || 0,
+        minute : value?.getMinutes() || 0
+    }
+    console.log(DateData)
+    console.log(value)
 
-    const sendChange = () => {
-
+    const handleChange = (propertyName:string) => ( event:React.ChangeEvent<HTMLInputElement|HTMLSelectElement>) => {
+        DateData = {
+            ...DateData,
+            [propertyName]:event.target.value
+        }
+        onChange(getDate(DateData.date,DateData.hour,DateData.minute));
     }
     return (
         <div className="DueDate">
-            <input type="date" value={date}/>
-            <select id="hour" value={hour}>
+            <input type="date" value={DateData.date} onChange={handleChange("date")}/>
+            <select id="hour" value={DateData.hour} onChange={handleChange("hour")}>
                 {(() => {
                     let options = []
                     for (let i = 0; i <= 23; i++) {
@@ -22,7 +43,7 @@ let DueDate = ({value, onChange}:{value:Date|null,onChange:(value:Date)=>void}) 
                 })()}
             </select>
             :
-            <select id="minute" value={minute}>
+            <select id="minute" value={DateData.minute} onChange={handleChange("minute")}>
                 {(() => {
                     let options = []
                     for (let i = 0; i <= 55; i+=5) {
