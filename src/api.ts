@@ -7,7 +7,7 @@ interface Task {
     _id:string,
     title:string,
     description?:string,
-    dueDate?:string,
+    dueDate?:Date,
     state:State,
     tags?:Array<string>,
     alerts?:Array<string>,
