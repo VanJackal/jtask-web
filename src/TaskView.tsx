@@ -1,6 +1,8 @@
 import React from "react";
 import {Task,getTask,createTask,updateTask} from "./api";
 
+const NULL_TASK = {_id: "", state: 0, title: ""}
+
 let padNum = (len:number,num:number) => {
     return num.toString().padStart(len,"0")
 }
@@ -57,14 +59,16 @@ let DueDate = ({value, onChange}:{value:Date|null,onChange:(value:Date)=>void}) 
 }
 
 let TaskView = ({taskId,select,refresh}:{taskId:string,select:Function,refresh:Function}) => {
-    let [taskData, setTask] = React.useState<Task>({
-        _id: "", state: 0, title: ""
-    })
-    if (taskId != taskData._id) {
-        getTask(taskId).then((task) => {
-            setTask(task)
-        })
-    }
+    let [taskData, setTask] = React.useState<Task>(NULL_TASK)
+    React.useEffect(() => {
+        if (taskId) {
+            getTask(taskId).then((task) => {
+                setTask(task)
+            })
+        } else {
+            setTask(NULL_TASK)
+        }
+    },[taskId])
 
     const submit = async () => {
         if (taskId){// update
@@ -78,10 +82,10 @@ let TaskView = ({taskId,select,refresh}:{taskId:string,select:Function,refresh:F
     }
     return (
         <>
-            <input placeholder="Task Name" value={taskData.title} onChange={ event => setTask({...taskData,title:event.target.value})}/>
-            <textarea placeholder="Description" value={taskData.description} onChange={event => setTask({...taskData,description:event.target.value})}/>
+            <input placeholder="Task Name" value={taskData.title || ""} onChange={ event => setTask({...taskData,title:event.target.value})}/>
+            <textarea placeholder="Description" value={taskData.description || ""} onChange={event => setTask({...taskData,description:event.target.value})}/>
             <DueDate value={taskData.dueDate?new Date(taskData.dueDate):null} onChange={value => setTask({...taskData,dueDate:value})}/>
-            <input type="text" placeholder="Tags" value={taskData.tags} onChange={event => setTask({...taskData,tags:event.target.value.split(",")})}/>
+            <input type="text" placeholder="Tags" value={taskData.tags || ""} onChange={event => setTask({...taskData,tags:event.target.value.split(",")})}/>
             <div>
                 <label>Alert </label>
                 <input type="checkbox"/>

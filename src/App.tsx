@@ -19,14 +19,19 @@ function App() {
 	},[])
 
 	return (
-		<div className="App">
-			<div className="TaskList">
-				{tasks ? <TaskList tasks={tasks} select={setSelected} selected={selected}/> : <p>loading</p>}
+		<>
+			<div className="Header">
+				<button onClick={() => setSelected("")}>New Task</button>
 			</div>
-			<div className="TaskView">
-				<TaskView taskId={selected} select={setSelected} refresh={updateTasks}/>
+			<div className="App">
+				<div className="TaskList">
+					{tasks ? <TaskList tasks={tasks} select={setSelected} selected={selected}/> : <p>loading</p>}
+				</div>
+				<div className="TaskView">
+					<TaskView taskId={selected} select={setSelected} refresh={updateTasks}/>
+				</div>
 			</div>
-		</div>
+		</>
 	);
 }
 
