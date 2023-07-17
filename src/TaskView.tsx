@@ -82,8 +82,10 @@ let TaskView = ({taskId,select,refresh}:{taskId:string,select:Function,refresh:F
             <textarea placeholder="Description" value={taskData.description} onChange={event => setTask({...taskData,description:event.target.value})}/>
             <DueDate value={taskData.dueDate?new Date(taskData.dueDate):null} onChange={value => setTask({...taskData,dueDate:value})}/>
             <input type="text" placeholder="Tags" value={taskData.tags} onChange={event => setTask({...taskData,tags:event.target.value.split(",")})}/>
-            <label>Alert </label>
-            <input type="checkbox"/>
+            <div>
+                <label>Alert </label>
+                <input type="checkbox"/>
+            </div>
             <button onClick={submit}>Save</button>
         </>
     )
